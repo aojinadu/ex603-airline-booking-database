@@ -1,0 +1,43 @@
+Index: .idea/ex603-airline-booking-database.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<module type=\"DBE_MODULE\" version=\"4\">\n  <component name=\"NewModuleRootManager\">\n    <content url=\"file://$MODULE_DIR$\" />\n    <orderEntry type=\"inheritedJdk\" />\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\n  </component>\n</module>
+===================================================================
+diff --git a/.idea/ex603-airline-booking-database.iml b/.idea/ex603-airline-booking-database.iml
+--- a/.idea/ex603-airline-booking-database.iml	(revision d147fbf2201ed5a9f9f615955406b431e938aad9)
++++ b/.idea/ex603-airline-booking-database.iml	(date 1789390086701)
+@@ -1,6 +1,7 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <module type="DBE_MODULE" version="4">
+   <component name="NewModuleRootManager">
++    <content url="file://$MODULE_DIR$/../Heights DB Connection" />
+     <content url="file://$MODULE_DIR$" />
+     <orderEntry type="inheritedJdk" />
+     <orderEntry type="sourceFolder" forTests="false" />
+Index: .idea/dataSources.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"DataSourceManagerImpl\" format=\"xml\" multifile-model=\"true\">\n    <data-source source=\"LOCAL\" name=\"Demo PostgreSQL\" read-only=\"true\" uuid=\"8c684d79-b0ae-4aa8-b7f2-7f6aa8ad65ca\">\n      <driver-ref>postgresql</driver-ref>\n      <synchronize>true</synchronize>\n      <jdbc-driver>org.postgresql.Driver</jdbc-driver>\n      <jdbc-url>jdbc:postgresql://postgresql.datagrip-dbs.intellij.net:5432/datagrip</jdbc-url>\n      <working-dir>$ProjectFileDir$</working-dir>\n    </data-source>\n  </component>\n</project>
+===================================================================
+diff --git a/.idea/dataSources.xml b/.idea/dataSources.xml
+--- a/.idea/dataSources.xml	(revision d147fbf2201ed5a9f9f615955406b431e938aad9)
++++ b/.idea/dataSources.xml	(date 1790527258164)
+@@ -8,5 +8,17 @@
+       <jdbc-url>jdbc:postgresql://postgresql.datagrip-dbs.intellij.net:5432/datagrip</jdbc-url>
+       <working-dir>$ProjectFileDir$</working-dir>
+     </data-source>
++    <data-source source="LOCAL" name="horilla@localhost" uuid="9d9b3129-18ae-4828-a323-b7fd73706e62">
++      <driver-ref>postgresql</driver-ref>
++      <synchronize>true</synchronize>
++      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
++      <jdbc-url>jdbc:postgresql://localhost:5432/horilla</jdbc-url>
++      <jdbc-additional-properties>
++        <property name="com.intellij.clouds.kubernetes.db.host.port" />
++        <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
++        <property name="com.intellij.clouds.kubernetes.db.container.port" />
++      </jdbc-additional-properties>
++      <working-dir>$ProjectFileDir$</working-dir>
++    </data-source>
+   </component>
+ </project>
+\ No newline at end of file

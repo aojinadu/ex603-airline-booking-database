@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f5fb5b48-a2aa-4cb0-8cd1-1a7593059c0b" name="Changes" comment="Add Unit 3: data exploration, bug reproduction, and dashboard finding" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+      <option value="repository" />
+    </option>
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_/Users/ayotola/DataGripProjects/ex603-airline-booking-database" value="3LWmdz4nCFTKG9oa59XBuqEMqcu" />
+    </persistenceIdMap>
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="38" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0" />
+      <entry key="S5" value="1.0" />
+      <entry key="S10" value="1.0000000076011086" />
+      <entry key="S30" value="1.0091241896876435" />
+      <entry key="S60" value="1.3020544524340556" />
+      <entry key="M2" value="2.7384705506621616" />
+      <entry key="M5" value="6.073822343961656" />
+      <entry key="M10" value="8.763685563388126" />
+      <entry key="M15" value="10.281824146887772" />
+      <entry key="M30" value="12.503324763446216" />
+      <entry key="H1" value="14.040057006967702" />
+      <entry key="H2" value="14.958567618576014" />
+      <entry key="H4" value="15.46268737375922" />
+      <entry key="D1" value="15.908029812472385" />
+      <entry key="W1" value="15.986800648411068" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.9794202975869268" />
+      <entry key="MS500" value="0.9958497530944581" />
+      <entry key="S2" value="0.998960819551523" />
+      <entry key="S5" value="0.9995841981612189" />
+      <entry key="S10" value="0.9997920850586876" />
+      <entry key="S30" value="1.009051999345162" />
+      <entry key="S60" value="1.3019720731171585" />
+      <entry key="M2" value="2.7383157810136507" />
+      <entry key="M5" value="6.0736560463615605" />
+      <entry key="M10" value="8.763563338281292" />
+      <entry key="M15" value="10.281729162058221" />
+      <entry key="M30" value="12.503267992068537" />
+      <entry key="H1" value="14.04002555872714" />
+      <entry key="H2" value="14.958551000048105" />
+      <entry key="H4" value="15.462678821793045" />
+      <entry key="D1" value="15.908028351651536" />
+      <entry key="W1" value="15.986800438828688" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3JIIdC00izDMuwOAQb9tjac27J2" />
+  <component name="ProjectSessionTemplates">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "copilot.chat.legacySessionMetadata.migrated": "true",
+    "git.auto.fetch.suggestion.counter": "1",
+    "ignore_missing_gitignore": "true",
+    "last_opened_file_path": "/Users/ayotola/DataGripProjects/ex603-airline-booking-database/analysis",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/analysis" />
+      <recent name="$PROJECT_DIR$/screenshots" />
+      <recent name="$PROJECT_DIR$/queries" />
+      <recent name="$PROJECT_DIR$/schema" />
+    </key>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f5fb5b48-a2aa-4cb0-8cd1-1a7593059c0b" name="Changes" comment="" />
+      <created>1789342241560</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1789342241560</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Add initial schema, queries, and analysis for airline booking platform" />
+    <MESSAGE value="Add Unit 3: data exploration, bug reproduction, and dashboard finding" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Unit 3: data exploration, bug reproduction, and dashboard finding" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
