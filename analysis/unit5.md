@@ -80,13 +80,27 @@ What the data shows and what it does not: the 320-seat pattern is real in this d
 
 Counted with `COUNT(DISTINCT f.flight_id)` so that a flight with 21 bookings counts once, not 21 times.
 
-**Which producers were excluded?** **VN214** and **VN215**. **[confirm their flight_id values from 5.2A-4]** Neither has a single row in `bookings`. An inner join only keeps a flight when a matching booking exists, so these two drop out without any warning. The left join keeps them, with NULL on the booking side and a count of 0.
+**Which producers were excluded?** `flight_id` **14 (VN214)** and **15 (VN215)**.
+
+| flight_id | Flight | Origin country | First scheduled | Seats | Active |
+| --- | --- | --- | --- | --- | --- |
+| 14 | VN214 | Vietnam | 2022-05-16 | 303 | yes |
+| 15 | VN215 | Thailand | 2022-02-21 | 132 | yes |
+
+Neither has a single row in `bookings`. An inner join only keeps a flight when a matching booking exists, so these two drop out without any warning. The left join keeps them, with NULL on the booking side and a count of 0.
 
 ### Part B: RIGHT JOIN and FULL OUTER JOIN
 
 The RIGHT JOIN swaps the table order (`bookings RIGHT JOIN flights`) so `flights` is the side kept in full. To check that it really matches the left join, query 5.2B-2 runs `EXCEPT` in both directions: rows in LEFT that are not in RIGHT, and rows in RIGHT that are not in LEFT. Both came back as 0, and both results have 15 rows, so they are identical. **[confirm]**
 
-The FULL OUTER JOIN keeps unmatched rows from **both** sides and labels each row as matched, flight with no bookings, or booking with no flight. Result: 200 matched rows, 2 flights with no bookings, 0 bookings with no flight. **[confirm]** There are no orphan bookings because the foreign key on `bookings.flight_id` blocks them.
+The FULL OUTER JOIN keeps unmatched rows from **both** sides and labels each row as matched, flight with no bookings, or booking with no flight. Result:
+
+| match_type | rows | distinct_flights | distinct_bookings |
+| --- | --- | --- | --- |
+| matched | 200 | 13 | 200 |
+| flight with no bookings | 2 | 2 | 0 |
+
+No "booking with no flight" row came back at all, so there are 0 orphan bookings. That is expected, because the foreign key on `bookings.flight_id` blocks them.
 
 **What a full outer join shows that a left or right join does not.** A left join can find flights with no bookings, but not bookings with no valid flight. A right join, written the other way round, can find one but not the other. A full outer join checks both directions in one query. That makes it a data-integrity check as well as a report. Here it confirmed the bookings side is clean. On a dataset without that foreign key, the same query would catch bookings that point at a deleted or mistyped flight.
 
@@ -96,19 +110,25 @@ Both return the same two flights, VN214 and VN215. **[confirm]** `NOT EXISTS` wo
 
 ### Write-up
 
-**What does it mean when a producer has no events?** The flight exists in the system, but nobody has ever booked a seat on it. The data shows that much. It does not show *why*. Possible explanations, all of which need checking:
+**What does it mean when a producer has no events?** The flight exists in the system, but nobody has ever booked a seat on it.
 
-- The flight is new, or scheduled for the future, and has not opened for sale yet. `first_scheduled_on` is the first thing to check. **[confirm dates]**
-- The flight has been retired but its record was kept. `is_active` would show this. **[confirm]**
-- It is on sale but not visible, for example because of a pricing, distribution or search setup problem.
-- It serves a route nobody wants, at least at the current price or time.
-- It is test or placeholder data that was never cleaned up.
+**What the data shows:**
+
+- Both flights are **active** (`is_active = true`). They have not been retired.
+- Both were **first scheduled in 2022** (VN215 in February, VN214 in May). They are not new or future flights still waiting to go on sale. VN214 started the day after VN203, and flights that started later, such as VN204 (July 2022) and VN213 (October 2022), have bookings.
+- **Neither one has any route.** In the 5.1b junction query, VN214 and VN215 do not appear under any airport. Every one of the 13 flights with bookings except VN213 has at least one row in `flight_routes`.
+
+**What would need further investigation:** the missing routes are the strongest lead. A flight with no departure or arrival airport most likely cannot be found in search or booked, which would explain zero bookings. But the data alone cannot prove that the missing route is *why* nobody booked. VN213 also has no route and still has 11 bookings, so either bookings can be made without a route, or VN213's route was removed after it sold. Other possible explanations still to rule out:
+
+- A setup or distribution problem beyond routes, such as no fare loaded or not listed in sales channels.
+- A route nobody wants, at least at the current price or time.
+- Test or placeholder records that were never cleaned up.
 
 **How an inner-join report gives leadership an incomplete picture.** Every Unit 4 report used an inner join from `bookings` to `flights`. So every one of them described 13 flights and quietly treated that as the whole network. Leadership would see per-flight averages, rates and regional totals with no sign that 2 of 15 flights, about 13% of what the platform offers, had produced nothing. It also makes the platform look healthier: averages over flights that sell are higher than averages over all flights. The report is not wrong about the flights it covers. It just leaves out the ones that are failing most completely.
 
 **Why leadership would want to find never-active producers.** Every flight on the platform costs something to keep: it is scheduled, an aircraft (`tail_number`) and seats (`seat_capacity`) are set aside for it, and it sits in the catalog. A flight that never sells uses those resources and brings in nothing. It can also point to a problem in the system that affects other flights too.
 
-**What action leadership could take.** Check VN214 and VN215 one by one. If they are scheduled for the future, leave them alone and watch them. If they are retired, mark them inactive so they stop appearing as part of the network. If they are on sale and still not selling, look at visibility and pricing first, and set a deadline after which the flight is cut. This is a separate decision from VN202, which sells but has passengers not showing up. Details are in `unit5-finding.md`.
+**What action leadership could take.** Start by checking why VN214 and VN215 have no routes, and whether they show up for customers at all. If the routes were never set up, fix that and watch bookings for a set period. If they were never meant to fly, mark them inactive so they stop counting as part of the network. Only if they have routes, are visible, and still don't sell is it a demand problem, and then pricing or withdrawal is the decision. Separately, VN213 has bookings but no route, which is a data-quality issue worth fixing. This is a separate decision from VN202, which sells but has passengers not showing up. Details are in `unit5-finding.md`.
 
 ---
 
@@ -119,14 +139,14 @@ Both return the same two flights, VN214 and VN215. **[confirm]** `NOT EXISTS` wo
 | | Rows |
 | --- | --- |
 | `flights` | 15 |
-| `airports` | **[confirm]** |
-| Expected product (flights × airports) | **[confirm]** |
-| Actual CROSS JOIN rows | **[confirm]** |
-| `matches` | true **[confirm]** |
+| `airports` | 5 |
+| Expected product (15 × 5) | 75 |
+| Actual CROSS JOIN rows | 75 |
+| `matches` | true |
 
 The CROSS JOIN pairs every flight with every airport, so the row count is the product of the two table counts. Query 5.3A-1 puts both counts, the product and the actual count side by side in one result, so the multiplication can be checked in one screenshot.
 
-**When a Cartesian product is useful on this platform.** Building a **coverage grid**: every flight against every airport, with a flag showing which pairings are real routes (query 5.3A-2). That is how you list what does *not* exist, such as airports a flight does not serve, or empty cells in a flight × month report that should show 0 instead of being missing. The Unit 4 baseline query also used a deliberate `CROSS JOIN` to attach one baseline row to every flight.
+**When a Cartesian product is useful on this platform.** Building a **coverage grid**: every flight against every airport, with a flag showing which pairings are real routes (query 5.3A-2). Of the 75 pairings, 25 are real routes (the 5.1b counts add up to 9 + 5 + 4 + 4 + 3 = 25). The other 50 show where a flight does not go, and the rows for VN213, VN214 and VN215 are all `false`, which is how the missing routes stand out. That is how you list what does *not* exist, such as airports a flight does not serve, or empty cells in a flight × month report that should show 0 instead of being missing. The Unit 4 baseline query also used a deliberate `CROSS JOIN` to attach one baseline row to every flight.
 
 **When it signals a mistake.** When it was not intended. Usually it means a missing or wrong `ON` condition, or a table listed in `FROM` with no join condition. On this data, `bookings` × `passengers` would turn 200 bookings into 6,000 rows. Every `SUM` and `COUNT` on top of that would be inflated, and the query would still run without an error. The warning sign is a row count close to the product of two table sizes.
 
