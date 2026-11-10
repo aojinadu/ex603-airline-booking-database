@@ -33,7 +33,15 @@ Flights flagged in Unit 4:
 
 The query goes from `flights` through `flight_routes` to `airports`, and returns the airports (`iata_code`) each flight serves. The flagged flights are labelled. A summary query counts how many flagged flights serve each airport.
 
-Finding: **[confirm from screenshot: which airport codes VN202, VN203 and VN204 serve, and whether they share one]**
+| Airport | Flights serving | Flagged flights serving | Flights |
+| --- | --- | --- | --- |
+| SGN Tan Son Nhat International | 9 | 2 | VN201, **VN202**, **VN204**, VN205, VN207, VN208, VN209, VN210, VN212 |
+| SIN Changi Airport | 5 | 2 | **VN202**, **VN203**, VN205, VN210, VN211 |
+| HAN Noi Bai International | 4 | 2 | VN201, **VN203**, **VN204**, VN210 |
+| NRT Narita International | 4 | 1 | **VN202**, VN206, VN208, VN210 |
+| ICN Incheon International | 3 | 1 | **VN204**, VN211, VN212 |
+
+Finding: the flagged flights overlap in pairs, but no airport is common to all three. VN202 and VN204 share SGN, VN202 and VN203 share SIN, and VN203 and VN204 share HAN. Each of those airports is also served by flights that are doing fine. VN210 serves SGN, SIN, HAN and NRT, so it covers every airport the flagged flights use except ICN, and it had no no-shows at all in Unit 4. VN205 shares SGN and SIN and also had none. So the data does not point to one airport as the cause. Whatever is driving the no-shows seems tied to the flights themselves rather than to where they fly.
 
 **Why the junction table matters.** A flight can serve more than one airport, and an airport is served by many flights. That is a many-to-many relationship, and a single foreign key cannot store it. `flight_routes` holds one row per flight-airport pair, plus `effective_from` for when that pairing started. Without it there are two bad options. One is to put airport columns on `flights` (`airport_1`, `airport_2` ...), which caps how many airports a flight can have and means searching several columns to find every flight at one airport. The other is to store airport codes as a text list, which cannot be joined or checked against `airports`. Either way, "which flagged flights share an airport" becomes much harder to answer and much easier to get wrong.
 
@@ -41,9 +49,22 @@ Finding: **[confirm from screenshot: which airport codes VN202, VN203 and VN204 
 
 `flights` is joined to itself. Each flagged flight (`f1`) is paired with every other flight from the same `origin_country` (`f2`). The two are compared on seat capacity, first scheduled date, active status, bookings and no-shows.
 
-Finding: **[confirm from screenshot: whether the flagged flights differ from their same-country peers on capacity, start date, active status or booking volume]**
+| Flagged flight | Country | Seats | Start | Active | Bookings | No-shows | Peer | Seats | Start | Active | Bookings | No-shows |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| VN202 | Japan | 320 | 2022-01-20 | yes | 16 | 3 | VN206 | 90 | 2022-03-10 | yes | 21 | 1 |
+| VN202 | Japan | 320 | 2022-01-20 | yes | 16 | 3 | VN211 | 193 | 2022-05-08 | yes | 16 | 1 |
+| VN203 | Korea | 320 | 2022-05-15 | no | 13 | 2 | VN205 | 320 | 2022-04-18 | yes | 18 | 0 |
+| VN203 | Korea | 320 | 2022-05-15 | no | 13 | 2 | VN212 | 115 | 2022-01-17 | yes | 17 | 1 |
+| VN203 | Korea | 320 | 2022-05-15 | no | 13 | 2 | VN213 | 166 | 2022-10-17 | yes | 11 | 0 |
+| VN204 | Singapore | 320 | 2022-07-25 | yes | 6 | 1 | VN209 | 280 | 2022-04-25 | no | 14 | 1 |
 
-What the data already shows: VN203 is inactive, so its no-shows may come from a period when the flight was being wound down. VN204 has only 6 bookings, so one no-show is enough to give it a high rate. VN202 is the one where the rate is both high and based on enough bookings to take seriously.
+Finding: **all three flagged flights use 320-seat aircraft**, the largest in this comparison. Five of their six same-country peers are smaller (90 to 280 seats). That is the one characteristic they share.
+
+- **VN202** has the same number of bookings as its Japanese peer VN211 (16 each) but three times the no-shows (3 against 1). Volume does not explain the difference.
+- **VN203** is the only inactive flight in its group. Its no-shows may date from the period when it was being wound down.
+- **VN204** has the fewest bookings of any flight here (6) and is the newest of the three (July 2022). One no-show is enough to give it a high rate.
+
+What the data shows and what it does not: the 320-seat pattern is real in this data, but it is not enough to call it a cause. VN205 is also a 320-seat flight in the same country and had no no-shows on 18 bookings. Three flights is too few to say that large aircraft lead to no-shows. A large aircraft might be priced or sold differently (cheaper fares, more last-minute bookings), which could affect whether passengers show up. That would need fare and booking-time data to check.
 
 ---
 
